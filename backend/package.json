@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "mediotec_api",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -16,5 +16,4 @@
     "express": "^4.19.2",
     "mongoose": "^8.6.0"
   }
-
 }

@@ -19,8 +19,12 @@ mongoose.connect(process.env.MONGO_URI)
 
 
 // Rotas
-//const plantationsRoute = require('./routes/plantations');
-//app.use('/api/plantations', plantationsRoute);
+const usuariosRoute = require('./routes/usuarios');
+const turmasRoute = require('./routes/turmas');
+const disciplinasRoute = require('./routes/disciplinas');
+app.use('/api/usuarios', usuariosRoute);
+app.use('/api/turmas', turmasRoute);
+app.use('/api/disciplinas', disciplinasRoute);
 
 // Porta
 const PORT = process.env.PORT || 3000;
