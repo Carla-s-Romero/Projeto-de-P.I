@@ -1,0 +1,68 @@
+body {
+    color: rgb(255, 254, 254) !important;
+    background-size: cover; 
+    background-position: top; 
+    background-repeat: no-repeat; 
+    margin: 0; 
+    padding: 0;
+}
+
+.container {
+    position: absolute;
+    background-color: rgba(248, 248, 248, 0.8);
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    padding: 10px;
+    color: rgb(214, 206, 206);
+    width: 250px;
+    border: 2px solid rgb(44, 44, 44);
+}
+
+#buttonLogin {
+    color: #FFF;
+text-align: center;
+font-family: "Open Sans";
+font-size: 32px;
+font-style: normal;
+font-weight: 800;
+line-height: normal;
+background-color: orange !important;
+}
+.navbar {
+    background: linear-gradient(90deg, #021320 0%, #023A60 51.5%, #022036 100%);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.navbar-brand {
+    color: white;
+    font-size: 1.5rem; /* Tamanho da fonte da logo */
+}
+
+.nav-link {
+    color: white !important; /* Cor do texto dos links */
+}
+
+.profile-icon {
+    color: white; /* Cor do ícone do perfil */
+    font-size: 1.5rem; /* Tamanho do ícone */
+}
+
+.navbar-nav {
+    margin-left: auto; /* Move a nav para a direita */
+}
+
+.navbar-brand img {
+    width:100px; /* Defina a largura desejada */
+    height: auto; /* Mantém a proporção da imagem */
+  }
+  
+  .footer {
+    background: linear-gradient(90deg, #021320 0%, #023A60 51.5%, #022036 100%);
+    color: white;
+    position: absolute;
+    bottom:0;
+    width: 100%;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
