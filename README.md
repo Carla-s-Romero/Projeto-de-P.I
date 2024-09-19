@@ -1,3 +1,4 @@
-# Projeto academico 
+# Back-end 
 
-azulejo academico
+### Linguagens 
+[![My Skills](https://skillicons.dev/icons?i=js,nodejs,express)](https://skillicons.dev)
