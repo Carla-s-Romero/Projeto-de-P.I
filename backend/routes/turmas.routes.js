@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const turmasController = require('../controllers/turmaController');
+const turmasController = require('../controllers/turma.controller');
 
 router.get('/', turmasController.getTurma);
 router.get('/:id', turmasController.getTurmaById);

@@ -1,31 +1,58 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
-const bodyParser = require('body-parser');
-require('dotenv').config();
+const morgan = require('morgan');
+const helmet = require('helmet');
+const dotenv = require('dotenv');
+const connectDB = require('./config/database');
+//const swaggerSetup = require('./docs/swagger');
 
+// Carregar variáveis de ambiente do arquivo .env
+dotenv.config();
+
+// Conectar ao banco de dados
+connectDB();
+
+// Inicializar o aplicativo Express
 const app = express();
 
-// Middleware
+// Middleware de segurança
+app.use(helmet());
+
+// Middleware para habilitar CORS
 app.use(cors());
-app.use(bodyParser.json({ limit: '50mb' }));  // Aumentando o limite de tamanho
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));  // Para dados enviados via URL encoded
-app.use(express.static('public'));
 
-// Conexão com o MongoDB
-mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log('MongoDB Connected'))
-    .catch(err => console.log(err));
+// Middleware para log de requisições
+app.use(morgan('dev'));
 
+// Middleware para parsing de JSON
+app.use(express.json());
+
+// Middleware para parsing de dados de formulários
+app.use(express.urlencoded({ extended: true }));
 
 // Rotas
-const usuariosRoute = require('./routes/usuarios');
-const turmasRoute = require('./routes/turmas');
-const disciplinasRoute = require('./routes/disciplinas');
+const usuariosRoute = require('./routes/usuarios.routes');
+const turmasRoute = require('./routes/turmas.routes');
+const disciplinasRoute = require('./routes/disciplinas.routes');
+const authRoute = require('./routes/auth.routes');
+const comunicadosRoute = require('./routes/comunicados.routes');
+const notificacoesRoute = require('./routes/notificacoes.routes');
 app.use('/api/usuarios', usuariosRoute);
 app.use('/api/turmas', turmasRoute);
 app.use('/api/disciplinas', disciplinasRoute);
+app.use('/api/auth', authRoute);
+app.use('/api/comunicados', comunicadosRoute);
+app.use('/api/notificacoes', notificacoesRoute);
 
-// Porta
+// Configuração do Swagger
+//swaggerSetup(app);
+// http://localhost:3000/api-docs
+
+
+// Configuração da Porta
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Iniciar o servidor
+app.listen(PORT, () => {
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
+});
