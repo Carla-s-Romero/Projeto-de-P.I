@@ -1,4 +1,4 @@
-const Turma = require('../models/Turmas.models');
+const Turma = require('../models/turmas.models');
 
 // @desc    Get all turmas
 // @route   GET /api/turmas

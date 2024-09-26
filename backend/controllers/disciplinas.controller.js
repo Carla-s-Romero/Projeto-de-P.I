@@ -1,4 +1,4 @@
-const Disciplina = require('../models/Disciplinas.models');
+const Disciplina = require('../models/disciplinas.models');
 
 // @desc    Get all disciplinas
 // @route   GET /api/disciplinas

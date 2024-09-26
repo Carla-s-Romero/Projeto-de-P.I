@@ -41,3 +41,5 @@ exports.deleteUsuario = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// retornar Usuarios por Turma
