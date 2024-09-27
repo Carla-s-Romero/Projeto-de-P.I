@@ -42,4 +42,5 @@ exports.deleteUsuario = async (req, res) => {
   }
 };
 
-// retornar Usuarios por Turma
+//Criar Função de Login
+//Criar Função para retornar Usuarios por Turma
