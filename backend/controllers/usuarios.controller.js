@@ -41,6 +41,8 @@ exports.deleteUsuario = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
-//Criar Função de Login
-//Criar Função para retornar Usuarios por Turma
+//Criar função para retornar Usuários Professores
+//Criar função para retornar Usuários Alunos
+//Criar função para retornar Usuários Coordenador
+//Criar função de Login (Mas acho que a função em auth.controller ja funciona)
+//Criar função para retornar Usuarios por Turma
