@@ -44,5 +44,30 @@ exports.deleteUsuario = async (req, res) => {
 //Criar função para retornar Usuários Professores
 //Criar função para retornar Usuários Alunos
 //Criar função para retornar Usuários Coordenador
-//Criar função de Login (Mas acho que a função em auth.controller ja funciona)
 //Criar função para retornar Usuarios por Turma
+exports.getProfessores = async (req, res) => {
+  try {
+    const professores = await Usuario.find({ tipo: 'professor' });
+    res.json(professores);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getAlunos = async (req, res) => {
+  try {
+      const alunos = await Usuario.find({ tipo: 'aluno' });
+      res.json(alunos);
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getCoordenadores = async (req, res) => {
+  try {
+    const coordenadores = await Usuario.find({ tipo: 'coordenador' });
+    res.json(coordenadores);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

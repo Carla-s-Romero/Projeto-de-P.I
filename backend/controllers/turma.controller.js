@@ -76,3 +76,19 @@ exports.deleteTurma = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// @desc    Get alunos by turma id
+// @route   GET /api/turmas/:id/alunos
+// @access  Public
+exports.getAlunosByTurmaId = async (req, res) => {
+  try {
+    const turma = await Turma.findById(req.params.id).populate('alunos');
+    if (!turma) {
+      return res.status(404).json({ message: 'Turma não encontrada' });
+    }
+    res.json(turma.alunos);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+

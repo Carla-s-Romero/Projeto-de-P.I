@@ -7,5 +7,6 @@ router.get('/:id', turmasController.getTurmaById);
 router.post('/', turmasController.createTurma);
 router.put('/:id', turmasController.updateTurma);
 router.delete('/:id', turmasController.deleteTurma);
+router.get('/:id/alunos', turmasController.getAlunosByTurmaId);
 
 module.exports = router;

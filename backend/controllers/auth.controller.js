@@ -17,7 +17,7 @@ exports.login = async (req, res) => {
   try {
     const { nome, senha } = req.body;
     const usuario = await Usuario.findOne({ nome });
-    if (!usuario || !(await usuario.comparePassword(senha))) {
+    if (!usuario || !(await usuario.compareSenha(senha))) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
     const token = jwt.sign({ id: usuario._id }, config.secret, { expiresIn: '1h' });
