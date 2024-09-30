@@ -30,6 +30,34 @@ app.use(express.json());
 // Middleware para parsing de dados de formulários
 app.use(express.urlencoded({ extended: true }));
 
+// Criar um usuario administrador quando o sistema é iniciado, para que o primeiro usuario do sistema possa fazer algo
+(async () => {
+    try {
+      const { primeiroAdmin } = require('./controllers/auth.controller');
+      const Usuarios = require('./models/usuarios.models');
+      
+      const adminExists = await Usuarios.findOne({ email: 'primeiro@admin.com' });
+      if (!adminExists) {
+        const response = await primeiroAdmin({
+          nome: 'Admin',
+          email: 'primeiro@admin.com',
+          senha: 'senhaSegura456',
+          matricula: '001',
+          tipo: 'coordenador',
+        });
+        if (response.status === 'success') {
+          console.log(response.message);
+        } else {
+          console.error('Erro ao criar usuário administrador:', response.message);
+        }
+      } else {
+        console.log('Usuário administrador já existe.');
+      }
+    } catch (error) {
+      console.error('Erro ao criar usuário administrador:', error.message);
+    }
+  })();
+
 // Rotas
 const usuariosRoute = require('./routes/usuarios.routes');
 const turmasRoute = require('./routes/turmas.routes');
