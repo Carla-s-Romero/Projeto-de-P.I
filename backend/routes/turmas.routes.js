@@ -9,4 +9,8 @@ router.put('/:id', turmasController.updateTurma);
 router.delete('/:id', turmasController.deleteTurma);
 router.get('/:id/alunos', turmasController.getAlunosByTurmaId);
 
+//novas rotas
+router.post('/:id/add-aluno', turmasController.addAlunotoTurma);
+router.delete('/:id/remove-aluno/:alunoId', turmasController.removeAlunofromTurma);
+
 module.exports = router;
