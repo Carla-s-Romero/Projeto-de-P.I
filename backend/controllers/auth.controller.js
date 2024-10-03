@@ -19,7 +19,7 @@ exports.registrar = async (req, res) => {
 
 exports.primeiroAdmin = async () => {
 
-  reg = async (dadosAdmin) => {
+   const data = async (dadosAdmin) => {
     try {
       const { nome, email, senha, matricula, tipo } = dadosAdmin;
       const usuario = new Usuario({ nome, email, senha, matricula, tipo });
@@ -33,7 +33,7 @@ exports.primeiroAdmin = async () => {
     try {
       const adminExists = await Usuario.findOne({ email: 'primeiro@admin.com' });
       if (!adminExists) {
-        const response = await this.reg({
+        const response = await data({
           nome: 'Admin',
           email: 'primeiro@admin.com',
           senha: 'senhaSegura456',
