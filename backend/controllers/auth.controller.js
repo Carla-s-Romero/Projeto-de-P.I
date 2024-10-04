@@ -33,7 +33,7 @@ exports.primeiroAdmin = async () => {
     try {
       const adminExists = await Usuario.findOne({ email: 'primeiro@admin.com' });
       if (!adminExists) {
-        const response = await this.reg({
+        const response = await reg({
           nome: 'Admin',
           email: 'primeiro@admin.com',
           senha: 'senhaSegura456',
