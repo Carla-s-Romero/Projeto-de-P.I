@@ -35,18 +35,20 @@ const { primeiroAdmin } = require('./controllers/auth.controller');
 primeiroAdmin();
 
 // Rotas
+const authRoute = require('./routes/auth.routes');
 const usuariosRoute = require('./routes/usuarios.routes');
 const turmasRoute = require('./routes/turmas.routes');
 const disciplinasRoute = require('./routes/disciplinas.routes');
-const authRoute = require('./routes/auth.routes');
 const comunicadosRoute = require('./routes/comunicados.routes');
 const notificacoesRoute = require('./routes/notificacoes.routes');
+const conceitosRoute = require('./routes/conceitos.routes');
+app.use('/api/auth', authRoute);
 app.use('/api/usuarios', usuariosRoute);
 app.use('/api/turmas', turmasRoute);
 app.use('/api/disciplinas', disciplinasRoute);
-app.use('/api/auth', authRoute);
 app.use('/api/comunicados', comunicadosRoute);
 app.use('/api/notificacoes', notificacoesRoute);
+app.use('/api/conceitos', conceitosRoute);
 
 // Configuração do Swagger
 //swaggerSetup(app);
