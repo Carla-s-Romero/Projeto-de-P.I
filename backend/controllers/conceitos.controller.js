@@ -31,17 +31,15 @@ exports.getConceitoById = async (req, res) => {
 // @route   POST /api/conceitos
 // @access  Public
 exports.createConceito = async (req, res) => {
-  const { mensagem, data, turma, autor } = req.body;
+  const { aluno, disciplina, unidade, av1, av2, noa } = req.body;
   try {
     const conceito = new Conceito({
         aluno,
         disciplina,
-        unidade: {
-            numero,
-            av1,
-            av2,
-            noa
-        }
+        unidade,
+        av1,
+        av2,
+        noa
     });
     await conceito.save();
     res.status(201).json(conceito);

@@ -32,14 +32,16 @@ exports.getTurmaById = async (req, res) => {
 // @route   POST /api/turmas
 // @access  Public
 exports.createTurma = async (req, res) => {
-  const { nome, ano, semestre, alunos, disciplina } = req.body;
+  const { nome, codigo, materia, turno, sala, professores, alunos } = req.body;
   try {
     const turma = new Turma({
       nome,
-      ano,
-      semestre,
-      alunos,
-      disciplina
+      codigo,
+      materia,
+      turno,
+      sala,
+      professores,
+      alunos
     });
     await turma.save();
     res.status(201).json(turma);

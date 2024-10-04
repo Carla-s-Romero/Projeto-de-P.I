@@ -31,12 +31,12 @@ exports.getComunicadoById = async (req, res) => {
 // @route   POST /api/comunicados
 // @access  Public
 exports.createComunicado = async (req, res) => {
-  const { mensagem, data, turma, autor } = req.body;
+  const { mensagem, data, turmas, autor } = req.body;
   try {
     const comunicado = new Comunicado({
         mensagem,
         data,
-        turma,
+        turmas,
         autor
     });
     await comunicado.save();

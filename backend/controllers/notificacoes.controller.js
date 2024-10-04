@@ -31,11 +31,12 @@ exports.getNotificacaoById = async (req, res) => {
 // @route   POST /api/notificacoes
 // @access  Public
 exports.createNotificacao = async (req, res) => {
-  const { mensagem, data, autor } = req.body;
+  const { mensagem, data, importancia, autor } = req.body;
   try {
     const notificacao = new Notificacao({
         mensagem,
         data,
+        importancia,
         autor
     });
     await notificacao.save();
