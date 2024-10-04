@@ -34,10 +34,14 @@ exports.createConceito = async (req, res) => {
   const { mensagem, data, turma, autor } = req.body;
   try {
     const conceito = new Conceito({
-        mensagem,
-        data,
-        turma,
-        autor
+        aluno,
+        disciplina,
+        unidade: {
+            numero,
+            av1,
+            av2,
+            noa
+        }
     });
     await conceito.save();
     res.status(201).json(conceito);
