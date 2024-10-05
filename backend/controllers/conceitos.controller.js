@@ -1,9 +1,10 @@
 const Conceito = require('../models/conceitos.models');
+const Usuario = require('../models/usuarios.models');
 
 // @desc    Get all conceitos
 // @route   GET /api/conceitos
-// @access  Public
-exports.getConceito = async (res) => {
+// @access  Private
+exports.getConceito = async (req, res) => {
   try {
     const conceito = await Conceito.find();
     res.json(conceito);
@@ -14,7 +15,7 @@ exports.getConceito = async (res) => {
 
 // @desc    Get single conceito
 // @route   GET /api/conceitos/:id
-// @access  Public
+// @access  Private
 exports.getConceitoById = async (req, res) => {
   try {
     const conceito = await Conceito.findById(req.params.id);
@@ -29,19 +30,23 @@ exports.getConceitoById = async (req, res) => {
 
 // @desc    Create new conceito
 // @route   POST /api/conceitos
-// @access  Public
+// @access  Private
+// Agora tá Funcionando
 exports.createConceito = async (req, res) => {
-  const { mensagem, data, turma, autor } = req.body;
+  const { aluno, disciplina, unidade, av1, av2, noa } = req.body;
   try {
+    const usuario = await Usuario.findById(aluno);
+    if (!usuario || usuario.tipo !== 'aluno') {
+      return res.status(400).json({ message: 'Usuário não encontrado ou não é um aluno' });
+    }
+
     const conceito = new Conceito({
         aluno,
         disciplina,
-        unidade: {
-            numero,
-            av1,
-            av2,
-            noa
-        }
+        unidade,
+        av1,
+        av2,
+        noa
     });
     await conceito.save();
     res.status(201).json(conceito);
@@ -52,7 +57,7 @@ exports.createConceito = async (req, res) => {
 
 // @desc    Update conceito
 // @route   PUT /api/conceitos/:id
-// @access  Public
+// @access  Private
 exports.updateConceito = async (req, res) => {
   try {
     const conceito = await Conceito.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
@@ -67,7 +72,7 @@ exports.updateConceito = async (req, res) => {
 
 // @desc    Delete conceito
 // @route   DELETE /api/conceitos/:id
-// @access  Public
+// @access  Private
 exports.deleteConceito = async (req, res) => {
   try {
     const conceito = await Conceito.findByIdAndDelete(req.params.id);
@@ -75,6 +80,28 @@ exports.deleteConceito = async (req, res) => {
       return res.status(404).json({ message: 'Conceito não encontrado' });
     }
     res.json({ message: 'Conceito deletado' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// @desc    Get all conceitos of a specific aluno
+// @route   GET /api/usuarios/:id/conceitos
+// @access  Private
+exports.getConceitosByAluno = async (req, res) => {
+  try {
+    const alunoId = req.params.id;
+    const usuario = await Usuario.findById(alunoId);
+    if (!usuario || usuario.tipo !== 'aluno') {
+      return res.status(400).json({ message: 'Usuário não é um aluno' });
+    }
+    const conceitos = await Conceito.find({ aluno: alunoId })
+      .populate('disciplina')
+      .populate('aluno');
+    if (!conceitos.length) {
+      return res.status(404).json({ message: 'Conceitos não encontrados' });
+    }
+    res.json(conceitos);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
