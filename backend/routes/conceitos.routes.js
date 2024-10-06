@@ -15,6 +15,6 @@ router.get('/:id', authMiddleware, getConceitoById);
 router.post('/', authMiddleware, createConceito);
 router.put('/:id', authMiddleware, updateConceito);
 router.delete('/:id', authMiddleware, deleteConceito);
-router.get('/:id/conceitos', getConceitosByAluno);
+router.get('/:id/conceitos', authMiddleware, getConceitosByAluno);
 
 module.exports = router;

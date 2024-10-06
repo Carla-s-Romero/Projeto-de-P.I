@@ -42,6 +42,7 @@ const authRoute = require('./routes/auth.routes');
 const comunicadosRoute = require('./routes/comunicados.routes');
 const notificacoesRoute = require('./routes/notificacoes.routes');
 const conceitosRoute = require('./routes/conceitos.routes');
+const faltasRoute = require('./routes/faltas.routes');
 app.use('/api/usuarios', usuariosRoute);
 app.use('/api/turmas', turmasRoute);
 app.use('/api/disciplinas', disciplinasRoute);
@@ -49,6 +50,7 @@ app.use('/api/auth', authRoute);
 app.use('/api/comunicados', comunicadosRoute);
 app.use('/api/notificacoes', notificacoesRoute);
 app.use('/api/conceitos', conceitosRoute);
+app.use('/api/faltas', faltasRoute);
 
 // Configuração do Swagger
 //swaggerSetup(app);
