@@ -51,12 +51,12 @@ Projeto-de-P.I
 ## Instalação
 1. Clone o repositório:
     ```sh
-    git clone https://github.com/seu-usuario/mediotec_api.git
+    git clone https://github.com/Carla-s-Romero/Projeto-de-P.I.git
     ```
 
 2. Navegue até o diretório do projeto:
     ```sh
-    cd Projeto-de-P.I/backend
+    cd Projeto-de-P.I
     ```
     
 3. Instale as dependências:
@@ -68,7 +68,7 @@ Projeto-de-P.I
 1. Crie um arquivo `.env` na raiz do diretório `backend` e adicione as seguintes variáveis de ambiente:
     ```env
     MONGO_URI=sua_string_de_conexão_mongodb
-    JWT_SECRET=suaChaveSecretaSuperSegura12345
+    JWT_SECRET=suaChaveSecretaJwt
     PORT=3000
     ```
 
