@@ -2,54 +2,50 @@
 # Mediotec API
 
 ## Descrição
-Mediotec API é uma aplicação back-end desenvolvida para gerenciar informações de usuários, disciplinas, faltas, conceitos, comunicados e notificações em um sistema educacional. A API é construída utilizando Node.js, Express e MongoDB.
+Mediotec API é uma API para um portal academico direcionado ao Senac Mediotec. Desenvolvida para gerenciar informações de usuários, disciplinas, faltas, conceitos, comunicados e notificações em um sistema educacional.
 
 ## Tecnologias Usadas
-[![My Skills](https://skillicons.dev/icons?i=js,nodejs,express,mongodb)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=js,nodejs,express,mongodb,npm,postman)](https://skillicons.dev)
 
 ## Estrutura do Projeto
 
 ```
-
 Projeto-de-P.I
-
-
-    .gitignore
-    backend/
-        app.js
-        config/
-            database.js
-            jwt.js
-        controllers/
-            auth.controller.js
-            comunicados.controller.js
-            conceitos.controller.js
-            disciplinas.controller.js
-            faltas.controller.js
-            notificacoes.controller.js
-            turma.controller.js
-            usuarios.controller.js
-        middleware/
-            auth.middleware.js
-        models/
-            comunicados.models.js
-            conceitos.models.js
-            disciplinas.models.js
-            faltas.models.js
-            usuarios.models.js
-        routes/
-            auth.routes.js
-            comunicados.routes.js
-            conceitos.routes.js
-            disciplinas.routes.js
-            faltas.routes.js
-            notificacoes.routes.js
-            turma.routes.js
-            usuarios.routes.js
-        package.json
-    LICENSE
-    README.md
-
+├── .gitignore
+├── backend/
+│   ├── app.js
+│   ├── config/
+│   │   ├── database.js
+│   │   └── jwt.js
+│   ├── controllers/
+│   │   ├── auth.controller.js
+│   │   ├── comunicados.controller.js
+│   │   ├── conceitos.controller.js
+│   │   ├── disciplinas.controller.js
+│   │   ├── faltas.controller.js
+│   │   ├── notificacoes.controller.js
+│   │   ├── turma.controller.js
+│   │   └── usuarios.controller.js
+│   ├── middleware/
+│   │   └── auth.middleware.js
+│   ├── models/
+│   │   ├── comunicados.models.js
+│   │   ├── conceitos.models.js
+│   │   ├── disciplinas.models.js
+│   │   ├── faltas.models.js
+│   │   └── usuarios.models.js
+│   ├── routes/
+│   │   ├── auth.routes.js
+│   │   ├── comunicados.routes.js
+│   │   ├── conceitos.routes.js
+│   │   ├── disciplinas.routes.js
+│   │   ├── faltas.routes.js
+│   │   ├── notificacoes.routes.js
+│   │   ├── turma.routes.js
+│   │   └── usuarios.routes.js
+│   └── package.json
+├── LICENSE
+└── README.md
 ```
 
 ## Instalação
