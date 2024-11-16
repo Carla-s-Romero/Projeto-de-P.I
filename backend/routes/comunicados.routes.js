@@ -1,6 +1,7 @@
 const express = require('express');
 const { 
     getComunicado,
+    getComunicadoByTurma,
     getComunicadoById,
     createComunicado,
     updateComunicado,
@@ -11,6 +12,7 @@ const router = express.Router();
 
 router.get('/', authMiddleware, getComunicado);
 router.get('/:id', authMiddleware, getComunicadoById);
+router.get('/turma/:turmaId', authMiddleware, getComunicadoByTurma);
 router.post('/', authMiddleware, createComunicado);
 router.put('/:id', authMiddleware, updateComunicado);
 router.delete('/:id', authMiddleware, deleteComunicado);

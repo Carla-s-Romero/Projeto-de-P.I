@@ -12,6 +12,19 @@ exports.getComunicado = async (req, res) => {
   }
 };
 
+// @desc    Get all comunicados
+// @route   GET /api/comunicados
+// @access  Public
+exports.getComunicadoByTurma = async (req, res) => {
+  try {
+    const { turmaId } = req.params;
+    const comunicado = await Comunicado.find({ turmas: turmaId });
+    res.json(comunicado);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 // @desc    Get single comunicado
 // @route   GET /api/comunicados/:id
 // @access  Public
