@@ -3,6 +3,8 @@ const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const dotenv = require('dotenv');
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 const connectDB = require('./config/database');
 //const swaggerSetup = require('./docs/swagger');
 
@@ -53,6 +55,33 @@ app.use('/api/conceitos', conceitosRoute);
 app.use('/api/faltas', faltasRoute);
 
 // Configuração do Swagger
+const swaggerOptions = {
+    definition: {
+      openapi: '3.0.0',
+      info: {
+        title: 'Projeto-de-P.I',
+        version: '2.5.0',
+        description: 'API para gerenciar alunos, professores, turmas, faltas, conceitos, notificações e mais.',
+      },
+      securitySchemes: {
+        BearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    apis: [
+      './routes/*.js',        // Adiciona todas as rotas de API para geração automática da documentação
+      './swagger/*.yaml',     // Adiciona todos os arquivos de documentação YAML
+    ],
+  };
+  
+  // Gerando a documentação com swagger-jsdoc
+  const swaggerDocs = swaggerJsdoc(swaggerOptions);
+  
+  // Serve a documentação Swagger na URL /api-docs
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 //swaggerSetup(app);
 // http://localhost:3000/api-docs
 

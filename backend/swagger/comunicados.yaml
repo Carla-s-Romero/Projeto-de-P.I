@@ -1,0 +1,262 @@
+openapi: 3.0.0
+info:
+  title: API de Comunicados
+  description: API para gerenciar comunicados de uma plataforma de ensino.
+  version: 1.0.0
+paths:
+  /comunicados:
+    get:
+      summary: Retorna todos os comunicados
+      description: Recupera uma lista de todos os comunicados, requerendo autenticação.
+      operationId: getComunicado
+      tags:
+        - Comunicados
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Lista de comunicados.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "1"
+                    titulo:
+                      type: string
+                      example: "Comunicado sobre as aulas"
+                    descricao:
+                      type: string
+                      example: "As aulas de matemática foram remarcadas para amanhã."
+                    data:
+                      type: string
+                      format: date
+                      example: "2024-11-17"
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+    post:
+      summary: Cria um novo comunicado
+      description: Cria um novo comunicado, requerendo autenticação.
+      operationId: createComunicado
+      tags:
+        - Comunicados
+      security:
+        - BearerAuth: []
+      requestBody:
+        description: Dados necessários para criar um novo comunicado.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titulo:
+                  type: string
+                  example: "Alteração no horário das aulas"
+                descricao:
+                  type: string
+                  example: "Informamos que o horário das aulas foi alterado."
+              required:
+                - titulo
+                - descricao
+      responses:
+        '201':
+          description: Comunicado criado com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "2"
+                  titulo:
+                    type: string
+                    example: "Alteração no horário das aulas"
+                  descricao:
+                    type: string
+                    example: "Informamos que o horário das aulas foi alterado."
+                  data:
+                    type: string
+                    format: date
+                    example: "2024-11-17"
+        '400':
+          description: Dados inválidos no corpo da requisição.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+  /comunicados/{id}:
+    get:
+      summary: Retorna um comunicado específico pelo ID
+      description: Recupera um comunicado específico baseado no ID fornecido.
+      operationId: getComunicadoById
+      tags:
+        - Comunicados
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID do comunicado.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: Comunicado encontrado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "1"
+                  titulo:
+                    type: string
+                    example: "Comunicado sobre as aulas"
+                  descricao:
+                    type: string
+                    example: "As aulas de matemática foram remarcadas para amanhã."
+                  data:
+                    type: string
+                    format: date
+                    example: "2024-11-17"
+        '404':
+          description: Comunicado não encontrado.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+    put:
+      summary: Atualiza um comunicado existente
+      description: Atualiza os dados de um comunicado existente baseado no ID fornecido.
+      operationId: updateComunicado
+      tags:
+        - Comunicados
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID do comunicado a ser atualizado.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        description: Dados atualizados para o comunicado.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titulo:
+                  type: string
+                  example: "Mudança no horário das aulas"
+                descricao:
+                  type: string
+                  example: "O horário das aulas foi modificado para a próxima terça-feira."
+              required:
+                - titulo
+                - descricao
+      responses:
+        '200':
+          description: Comunicado atualizado com sucesso.
+        '400':
+          description: Dados inválidos no corpo da requisição.
+        '404':
+          description: Comunicado não encontrado.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+    delete:
+      summary: Exclui um comunicado pelo ID
+      description: Exclui um comunicado existente com base no ID fornecido.
+      operationId: deleteComunicado
+      tags:
+        - Comunicados
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID do comunicado a ser excluído.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: Comunicado excluído com sucesso.
+        '404':
+          description: Comunicado não encontrado.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+  /comunicados/turma/{turmaId}:
+    get:
+      summary: Retorna os comunicados de uma turma específica
+      description: Recupera todos os comunicados de uma turma específica.
+      operationId: getComunicadoByTurma
+      tags:
+        - Comunicados
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: turmaId
+          in: path
+          description: ID da turma para filtrar os comunicados.
+          required: true
+          schema:
+            type: string
+            example: "turma1"
+      responses:
+        '200':
+          description: Lista de comunicados da turma.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "1"
+                    titulo:
+                      type: string
+                      example: "Comunicado sobre as aulas"
+                    descricao:
+                      type: string
+                      example: "As aulas de matemática foram remarcadas para amanhã."
+                    data:
+                      type: string
+                      format: date
+                      example: "2024-11-17"
+        '404':
+          description: Não foram encontrados comunicados para a turma fornecida.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+securitySchemes:
+  BearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT

@@ -1,0 +1,273 @@
+openapi: 3.0.0
+info:
+  title: API de Usuários
+  description: API para gerenciar usuários no sistema, incluindo professores, alunos e coordenadores.
+  version: 1.0.0
+paths:
+  /usuarios:
+    get:
+      summary: Retorna todos os usuários
+      description: Recupera uma lista de todos os usuários registrados no sistema.
+      operationId: getUsuarios
+      tags:
+        - Usuários
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Lista de usuários.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "1"
+                    nome:
+                      type: string
+                      example: "João Silva"
+                    tipo:
+                      type: string
+                      example: "aluno"
+                    email:
+                      type: string
+                      example: "joao.silva@escola.com"
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+  /usuarios/{id}:
+    get:
+      summary: Retorna um usuário específico pelo ID
+      description: Recupera os detalhes de um usuário específico com base no ID.
+      operationId: getUsuarioById
+      tags:
+        - Usuários
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID do usuário a ser recuperado.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: Usuário encontrado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "1"
+                  nome:
+                    type: string
+                    example: "João Silva"
+                  tipo:
+                    type: string
+                    example: "aluno"
+                  email:
+                    type: string
+                    example: "joao.silva@escola.com"
+        '404':
+          description: Usuário não encontrado.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+    put:
+      summary: Atualiza um usuário existente
+      description: Atualiza os dados de um usuário no sistema.
+      operationId: updateUsuario
+      tags:
+        - Usuários
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID do usuário a ser atualizado.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        description: Dados atualizados para o usuário.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                  example: "João Silva Filho"
+                tipo:
+                  type: string
+                  example: "professor"
+                email:
+                  type: string
+                  example: "joao.silva@escola.com"
+              required:
+                - nome
+                - tipo
+                - email
+      responses:
+        '200':
+          description: Usuário atualizado com sucesso.
+        '400':
+          description: Dados inválidos no corpo da requisição.
+        '404':
+          description: Usuário não encontrado.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+    delete:
+      summary: Exclui um usuário pelo ID
+      description: Exclui um usuário registrado no sistema.
+      operationId: deleteUsuario
+      tags:
+        - Usuários
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID do usuário a ser excluído.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: Usuário excluído com sucesso.
+        '404':
+          description: Usuário não encontrado.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+  /usuarios/tipo/professores:
+    get:
+      summary: Retorna todos os professores
+      description: Recupera uma lista de todos os professores registrados no sistema.
+      operationId: getProfessores
+      tags:
+        - Usuários
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Lista de professores.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "1"
+                    nome:
+                      type: string
+                      example: "Maria Oliveira"
+                    tipo:
+                      type: string
+                      example: "professor"
+                    email:
+                      type: string
+                      example: "maria.oliveira@escola.com"
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+  /usuarios/tipo/alunos:
+    get:
+      summary: Retorna todos os alunos
+      description: Recupera uma lista de todos os alunos registrados no sistema.
+      operationId: getAlunos
+      tags:
+        - Usuários
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Lista de alunos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "2"
+                    nome:
+                      type: string
+                      example: "João Silva"
+                    tipo:
+                      type: string
+                      example: "aluno"
+                    email:
+                      type: string
+                      example: "joao.silva@escola.com"
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+  /usuarios/tipo/coordenadores:
+    get:
+      summary: Retorna todos os coordenadores
+      description: Recupera uma lista de todos os coordenadores registrados no sistema.
+      operationId: getCoordenadores
+      tags:
+        - Usuários
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Lista de coordenadores.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "3"
+                    nome:
+                      type: string
+                      example: "Carlos Pereira"
+                    tipo:
+                      type: string
+                      example: "coordenador"
+                    email:
+                      type: string
+                      example: "carlos.pereira@escola.com"
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+securitySchemes:
+  BearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT

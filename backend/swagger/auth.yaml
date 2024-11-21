@@ -1,0 +1,145 @@
+# versão mais simples
+
+openapi: 3.0.0
+info:
+  title: API de Autenticação
+  description: API para gerenciar autenticação (login e registro) de usuários.
+  version: 1.0.0
+paths:
+  /auth/registrar:
+    post:
+      summary: Registra um novo usuário
+      description: Registra um novo usuário no sistema.
+      operationId: registrar
+      tags:
+        - Autenticação
+      security:
+        - BearerAuth: []
+      responses:
+        '201':
+          description: Usuário registrado com sucesso.
+        '400':
+          description: Dados inválidos no corpo da requisição.
+        '500':
+          description: Erro interno no servidor.
+
+  /auth/login:
+    post:
+      summary: Realiza o login do usuário
+      description: Realiza o login do usuário e retorna um token JWT.
+      operationId: login
+      tags:
+        - Autenticação
+      responses:
+        '200':
+          description: Login bem-sucedido, retorna token JWT.
+        '401':
+          description: Credenciais inválidas.
+        '500':
+          description: Erro interno no servidor.
+
+securitySchemes:
+  BearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
+
+
+# versão mais detalhada
+# caso a preferencia de uma apagar a outra
+
+# openapi: 3.0.0
+# info:
+#   title: API de Autenticação
+#   description: API para registrar e autenticar usuários.
+#   version: 1.0.0
+# paths:
+#   /registrar:
+#     post:
+#       summary: Registra um novo usuário
+#       description: Endpoint para registrar um novo usuário na plataforma.
+#       operationId: registrar
+#       tags:
+#         - Autenticação
+#       security:
+#         - BearerAuth: []
+#       requestBody:
+#         description: Dados necessários para registrar o usuário.
+#         content:
+#           application/json:
+#             schema:
+#               type: object
+#               properties:
+#                 nome:
+#                   type: string
+#                   example: "João Silva"
+#                 email:
+#                   type: string
+#                   example: "joao@exemplo.com"
+#                 senha:
+#                   type: string
+#                   example: "senhaForte123"
+#               required:
+#                 - nome
+#                 - email
+#                 - senha
+#       responses:
+#         '201':
+#           description: Usuário registrado com sucesso.
+#           content:
+#             application/json:
+#               schema:
+#                 type: object
+#                 properties:
+#                   message:
+#                     type: string
+#                     example: "Usuário registrado com sucesso!"
+#         '400':
+#           description: Erro de validação dos dados fornecidos.
+#         '500':
+#           description: Erro interno no servidor.
+
+#   /login:
+#     post:
+#       summary: Faz login e retorna um token de autenticação
+#       description: Endpoint para autenticar um usuário e retornar um token JWT.
+#       operationId: login
+#       tags:
+#         - Autenticação
+#       requestBody:
+#         description: Dados necessários para realizar o login.
+#         content:
+#           application/json:
+#             schema:
+#               type: object
+#               properties:
+#                 email:
+#                   type: string
+#                   example: "joao@exemplo.com"
+#                 senha:
+#                   type: string
+#                   example: "senhaForte123"
+#               required:
+#                 - email
+#                 - senha
+#       responses:
+#         '200':
+#           description: Login bem-sucedido. Retorna o token de autenticação.
+#           content:
+#             application/json:
+#               schema:
+#                 type: object
+#                 properties:
+#                   token:
+#                     type: string
+#                     example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+#         '401':
+#           description: Credenciais inválidas.
+#         '500':
+#           description: Erro interno no servidor.
+
+# securitySchemes:
+#   BearerAuth:
+#     type: http
+#     scheme: bearer
+#     bearerFormat: JWT

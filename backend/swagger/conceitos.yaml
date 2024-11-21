@@ -1,0 +1,282 @@
+openapi: 3.0.0
+info:
+  title: API de Conceitos
+  description: API para gerenciar os conceitos de alunos em uma plataforma de ensino.
+  version: 1.0.0
+paths:
+  /conceitos:
+    get:
+      summary: Retorna todos os conceitos
+      description: Recupera uma lista de todos os conceitos, requerendo autenticação.
+      operationId: getConceito
+      tags:
+        - Conceitos
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Lista de conceitos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "1"
+                    nome:
+                      type: string
+                      example: "Matemática"
+                    conceito:
+                      type: string
+                      example: "A"
+                    alunoId:
+                      type: string
+                      example: "12345"
+                    data:
+                      type: string
+                      format: date
+                      example: "2024-11-17"
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+    post:
+      summary: Cria um novo conceito
+      description: Cria um novo conceito para um aluno, requerendo autenticação.
+      operationId: createConceito
+      tags:
+        - Conceitos
+      security:
+        - BearerAuth: []
+      requestBody:
+        description: Dados necessários para criar um novo conceito.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                  example: "Matemática"
+                conceito:
+                  type: string
+                  example: "A"
+                alunoId:
+                  type: string
+                  example: "12345"
+              required:
+                - nome
+                - conceito
+                - alunoId
+      responses:
+        '201':
+          description: Conceito criado com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "2"
+                  nome:
+                    type: string
+                    example: "Matemática"
+                  conceito:
+                    type: string
+                    example: "A"
+                  alunoId:
+                    type: string
+                    example: "12345"
+                  data:
+                    type: string
+                    format: date
+                    example: "2024-11-17"
+        '400':
+          description: Dados inválidos no corpo da requisição.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+  /conceitos/{id}:
+    get:
+      summary: Retorna um conceito específico pelo ID
+      description: Recupera um conceito específico baseado no ID fornecido.
+      operationId: getConceitoById
+      tags:
+        - Conceitos
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID do conceito.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: Conceito encontrado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "1"
+                  nome:
+                    type: string
+                    example: "Matemática"
+                  conceito:
+                    type: string
+                    example: "A"
+                  alunoId:
+                    type: string
+                    example: "12345"
+                  data:
+                    type: string
+                    format: date
+                    example: "2024-11-17"
+        '404':
+          description: Conceito não encontrado.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+    put:
+      summary: Atualiza um conceito existente
+      description: Atualiza os dados de um conceito existente baseado no ID fornecido.
+      operationId: updateConceito
+      tags:
+        - Conceitos
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID do conceito a ser atualizado.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        description: Dados atualizados para o conceito.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                  example: "Matemática"
+                conceito:
+                  type: string
+                  example: "B"
+                alunoId:
+                  type: string
+                  example: "12345"
+              required:
+                - nome
+                - conceito
+                - alunoId
+      responses:
+        '200':
+          description: Conceito atualizado com sucesso.
+        '400':
+          description: Dados inválidos no corpo da requisição.
+        '404':
+          description: Conceito não encontrado.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+    delete:
+      summary: Exclui um conceito pelo ID
+      description: Exclui um conceito existente com base no ID fornecido.
+      operationId: deleteConceito
+      tags:
+        - Conceitos
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID do conceito a ser excluído.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: Conceito excluído com sucesso.
+        '404':
+          description: Conceito não encontrado.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+  /conceitos/{id}/conceitos:
+    get:
+      summary: Retorna os conceitos de um aluno específico
+      description: Recupera todos os conceitos de um aluno específico baseado no ID do aluno.
+      operationId: getConceitosByAluno
+      tags:
+        - Conceitos
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID do aluno para filtrar os conceitos.
+          required: true
+          schema:
+            type: string
+            example: "12345"
+      responses:
+        '200':
+          description: Lista de conceitos do aluno.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "1"
+                    nome:
+                      type: string
+                      example: "Matemática"
+                    conceito:
+                      type: string
+                      example: "A"
+                    alunoId:
+                      type: string
+                      example: "12345"
+                    data:
+                      type: string
+                      format: date
+                      example: "2024-11-17"
+        '404':
+          description: Não foram encontrados conceitos para o aluno fornecido.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+securitySchemes:
+  BearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT

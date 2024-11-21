@@ -1,0 +1,282 @@
+openapi: 3.0.0
+info:
+  title: API de Faltas
+  description: API para gerenciar as faltas dos alunos em uma plataforma de ensino.
+  version: 1.0.0
+paths:
+  /faltas:
+    get:
+      summary: Retorna todas as faltas
+      description: Recupera uma lista de todas as faltas registradas para os alunos, requerendo autenticação.
+      operationId: getFalta
+      tags:
+        - Faltas
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Lista de faltas.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "1"
+                    alunoId:
+                      type: string
+                      example: "12345"
+                    data:
+                      type: string
+                      format: date
+                      example: "2024-11-17"
+                    justificativa:
+                      type: string
+                      example: "Motivo médico"
+                    disciplina:
+                      type: string
+                      example: "Matemática"
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+    post:
+      summary: Cria uma nova falta
+      description: Registra uma nova falta para um aluno, requerendo autenticação.
+      operationId: createFalta
+      tags:
+        - Faltas
+      security:
+        - BearerAuth: []
+      requestBody:
+        description: Dados necessários para registrar uma nova falta.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                alunoId:
+                  type: string
+                  example: "12345"
+                data:
+                  type: string
+                  format: date
+                  example: "2024-11-17"
+                justificativa:
+                  type: string
+                  example: "Motivo médico"
+                disciplina:
+                  type: string
+                  example: "Matemática"
+              required:
+                - alunoId
+                - data
+                - disciplina
+      responses:
+        '201':
+          description: Falta criada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "2"
+                  alunoId:
+                    type: string
+                    example: "12345"
+                  data:
+                    type: string
+                    format: date
+                    example: "2024-11-17"
+                  justificativa:
+                    type: string
+                    example: "Motivo médico"
+                  disciplina:
+                    type: string
+                    example: "Matemática"
+        '400':
+          description: Dados inválidos no corpo da requisição.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+  /faltas/{id}:
+    get:
+      summary: Retorna uma falta específica pelo ID
+      description: Recupera os detalhes de uma falta específica pelo seu ID.
+      operationId: getFaltaById
+      tags:
+        - Faltas
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID da falta a ser recuperada.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: Falta encontrada.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "1"
+                  alunoId:
+                    type: string
+                    example: "12345"
+                  data:
+                    type: string
+                    format: date
+                    example: "2024-11-17"
+                  justificativa:
+                    type: string
+                    example: "Motivo médico"
+                  disciplina:
+                    type: string
+                    example: "Matemática"
+        '404':
+          description: Falta não encontrada.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+    put:
+      summary: Atualiza uma falta existente
+      description: Atualiza os dados de uma falta registrada no sistema.
+      operationId: updateFalta
+      tags:
+        - Faltas
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID da falta a ser atualizada.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        description: Dados atualizados para a falta.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                justificativa:
+                  type: string
+                  example: "Motivo médico"
+                disciplina:
+                  type: string
+                  example: "Matemática"
+              required:
+                - justificativa
+                - disciplina
+      responses:
+        '200':
+          description: Falta atualizada com sucesso.
+        '400':
+          description: Dados inválidos no corpo da requisição.
+        '404':
+          description: Falta não encontrada.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+    delete:
+      summary: Exclui uma falta pelo ID
+      description: Exclui uma falta registrada no sistema.
+      operationId: deleteFalta
+      tags:
+        - Faltas
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID da falta a ser excluída.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: Falta excluída com sucesso.
+        '404':
+          description: Falta não encontrada.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+  /faltas/aluno/{id}:
+    get:
+      summary: Retorna todas as faltas de um aluno específico
+      description: Recupera todas as faltas de um aluno específico baseado no ID do aluno.
+      operationId: getFaltaByAluno
+      tags:
+        - Faltas
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID do aluno.
+          required: true
+          schema:
+            type: string
+            example: "12345"
+      responses:
+        '200':
+          description: Lista de faltas do aluno.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "1"
+                    alunoId:
+                      type: string
+                      example: "12345"
+                    data:
+                      type: string
+                      format: date
+                      example: "2024-11-17"
+                    justificativa:
+                      type: string
+                      example: "Motivo médico"
+                    disciplina:
+                      type: string
+                      example: "Matemática"
+        '404':
+          description: Não foram encontradas faltas para o aluno fornecido.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+securitySchemes:
+  BearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT

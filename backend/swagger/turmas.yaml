@@ -1,0 +1,305 @@
+openapi: 3.0.0
+info:
+  title: API de Turmas
+  description: API para gerenciar turmas e alunos em uma plataforma educacional.
+  version: 1.0.0
+paths:
+  /turmas:
+    get:
+      summary: Retorna todas as turmas
+      description: Recupera uma lista de todas as turmas registradas no sistema.
+      operationId: getTurma
+      tags:
+        - Turmas
+      responses:
+        '200':
+          description: Lista de turmas.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "1"
+                    nome:
+                      type: string
+                      example: "Turma A - 1º Ano"
+                    descricao:
+                      type: string
+                      example: "Turma do 1º ano de ensino fundamental"
+                    anoLetivo:
+                      type: string
+                      example: "2024"
+        '500':
+          description: Erro interno no servidor.
+
+    post:
+      summary: Cria uma nova turma
+      description: Registra uma nova turma no sistema.
+      operationId: createTurma
+      tags:
+        - Turmas
+      requestBody:
+        description: Dados necessários para criar uma nova turma.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                  example: "Turma A - 1º Ano"
+                descricao:
+                  type: string
+                  example: "Turma do 1º ano de ensino fundamental"
+                anoLetivo:
+                  type: string
+                  example: "2024"
+              required:
+                - nome
+                - descricao
+                - anoLetivo
+      responses:
+        '201':
+          description: Turma criada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "2"
+                  nome:
+                    type: string
+                    example: "Turma A - 1º Ano"
+                  descricao:
+                    type: string
+                    example: "Turma do 1º ano de ensino fundamental"
+                  anoLetivo:
+                    type: string
+                    example: "2024"
+        '400':
+          description: Dados inválidos no corpo da requisição.
+        '500':
+          description: Erro interno no servidor.
+
+  /turmas/{id}:
+    get:
+      summary: Retorna uma turma específica pelo ID
+      description: Recupera os detalhes de uma turma específica com base no ID.
+      operationId: getTurmaById
+      tags:
+        - Turmas
+      parameters:
+        - name: id
+          in: path
+          description: ID da turma a ser recuperada.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: Turma encontrada.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "1"
+                  nome:
+                    type: string
+                    example: "Turma A - 1º Ano"
+                  descricao:
+                    type: string
+                    example: "Turma do 1º ano de ensino fundamental"
+                  anoLetivo:
+                    type: string
+                    example: "2024"
+        '404':
+          description: Turma não encontrada.
+        '500':
+          description: Erro interno no servidor.
+
+    put:
+      summary: Atualiza uma turma existente
+      description: Atualiza os dados de uma turma registrada no sistema.
+      operationId: updateTurma
+      tags:
+        - Turmas
+      parameters:
+        - name: id
+          in: path
+          description: ID da turma a ser atualizada.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        description: Dados atualizados para a turma.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                  example: "Turma A - 2º Ano"
+                descricao:
+                  type: string
+                  example: "Turma do 2º ano de ensino fundamental"
+                anoLetivo:
+                  type: string
+                  example: "2025"
+              required:
+                - nome
+                - descricao
+                - anoLetivo
+      responses:
+        '200':
+          description: Turma atualizada com sucesso.
+        '400':
+          description: Dados inválidos no corpo da requisição.
+        '404':
+          description: Turma não encontrada.
+        '500':
+          description: Erro interno no servidor.
+
+    delete:
+      summary: Exclui uma turma pelo ID
+      description: Exclui uma turma registrada no sistema.
+      operationId: deleteTurma
+      tags:
+        - Turmas
+      parameters:
+        - name: id
+          in: path
+          description: ID da turma a ser excluída.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: Turma excluída com sucesso.
+        '404':
+          description: Turma não encontrada.
+        '500':
+          description: Erro interno no servidor.
+
+  /turmas/{id}/alunos:
+    get:
+      summary: Retorna os alunos de uma turma
+      description: Recupera todos os alunos associados a uma turma específica.
+      operationId: getAlunosByTurmaId
+      tags:
+        - Turmas
+      parameters:
+        - name: id
+          in: path
+          description: ID da turma para buscar seus alunos.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: Lista de alunos da turma.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "1"
+                    nome:
+                      type: string
+                      example: "João Silva"
+                    matricula:
+                      type: string
+                      example: "123456"
+                    turmaId:
+                      type: string
+                      example: "1"
+        '404':
+          description: Turma não encontrada ou sem alunos.
+        '500':
+          description: Erro interno no servidor.
+
+  /turmas/{id}/add-aluno:
+    post:
+      summary: Adiciona um aluno a uma turma
+      description: Adiciona um aluno a uma turma existente.
+      operationId: addAlunotoTurma
+      tags:
+        - Turmas
+      parameters:
+        - name: id
+          in: path
+          description: ID da turma a qual o aluno será adicionado.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        description: Dados do aluno a ser adicionado à turma.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                alunoId:
+                  type: string
+                  example: "12345"
+      responses:
+        '200':
+          description: Aluno adicionado à turma com sucesso.
+        '404':
+          description: Turma não encontrada ou aluno não encontrado.
+        '500':
+          description: Erro interno no servidor.
+
+  /turmas/{id}/remove-aluno/{alunoId}:
+    delete:
+      summary: Remove um aluno de uma turma
+      description: Remove um aluno de uma turma existente.
+      operationId: removeAlunofromTurma
+      tags:
+        - Turmas
+      parameters:
+        - name: id
+          in: path
+          description: ID da turma da qual o aluno será removido.
+          required: true
+          schema:
+            type: string
+            example: "1"
+        - name: alunoId
+          in: path
+          description: ID do aluno a ser removido.
+          required: true
+          schema:
+            type: string
+            example: "12345"
+      responses:
+        '200':
+          description: Aluno removido da turma com sucesso.
+        '404':
+          description: Turma ou aluno não encontrado.
+        '500':
+          description: Erro interno no servidor.
+
+securitySchemes:
+  BearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT

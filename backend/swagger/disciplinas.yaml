@@ -1,0 +1,325 @@
+openapi: 3.0.0
+info:
+  title: API de Disciplinas
+  description: API para gerenciar as disciplinas e suas associações com professores e turmas em uma plataforma de ensino.
+  version: 1.0.0
+paths:
+  /disciplinas:
+    get:
+      summary: Retorna todas as disciplinas
+      description: Recupera uma lista de todas as disciplinas cadastradas, sem filtros.
+      operationId: getDisciplina
+      tags:
+        - Disciplinas
+      responses:
+        '200':
+          description: Lista de disciplinas.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "1"
+                    nome:
+                      type: string
+                      example: "Matemática"
+                    descricao:
+                      type: string
+                      example: "Disciplina de cálculo básico."
+                    cargaHoraria:
+                      type: integer
+                      example: 60
+        '500':
+          description: Erro interno no servidor.
+
+    post:
+      summary: Cria uma nova disciplina
+      description: Cria uma nova disciplina no sistema.
+      operationId: createDisciplina
+      tags:
+        - Disciplinas
+      requestBody:
+        description: Dados necessários para criar uma nova disciplina.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                  example: "Matemática"
+                descricao:
+                  type: string
+                  example: "Disciplina de cálculo básico."
+                cargaHoraria:
+                  type: integer
+                  example: 60
+              required:
+                - nome
+                - cargaHoraria
+      responses:
+        '201':
+          description: Disciplina criada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "2"
+                  nome:
+                    type: string
+                    example: "Matemática"
+                  descricao:
+                    type: string
+                    example: "Disciplina de cálculo básico."
+                  cargaHoraria:
+                    type: integer
+                    example: 60
+        '400':
+          description: Dados inválidos no corpo da requisição.
+        '500':
+          description: Erro interno no servidor.
+
+  /disciplinas/{id}:
+    get:
+      summary: Retorna uma disciplina específica pelo ID
+      description: Recupera os detalhes de uma disciplina específica pelo seu ID.
+      operationId: getDisciplinaById
+      tags:
+        - Disciplinas
+      parameters:
+        - name: id
+          in: path
+          description: ID da disciplina a ser recuperada.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: Disciplina encontrada.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "1"
+                  nome:
+                    type: string
+                    example: "Matemática"
+                  descricao:
+                    type: string
+                    example: "Disciplina de cálculo básico."
+                  cargaHoraria:
+                    type: integer
+                    example: 60
+        '404':
+          description: Disciplina não encontrada.
+        '500':
+          description: Erro interno no servidor.
+
+    put:
+      summary: Atualiza uma disciplina existente
+      description: Atualiza as informações de uma disciplina existente no sistema.
+      operationId: updateDisciplina
+      tags:
+        - Disciplinas
+      parameters:
+        - name: id
+          in: path
+          description: ID da disciplina a ser atualizada.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        description: Dados atualizados para a disciplina.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                  example: "Matemática Avançada"
+                descricao:
+                  type: string
+                  example: "Disciplina de cálculo avançado."
+                cargaHoraria:
+                  type: integer
+                  example: 80
+              required:
+                - nome
+                - cargaHoraria
+      responses:
+        '200':
+          description: Disciplina atualizada com sucesso.
+        '400':
+          description: Dados inválidos no corpo da requisição.
+        '404':
+          description: Disciplina não encontrada.
+        '500':
+          description: Erro interno no servidor.
+
+    delete:
+      summary: Exclui uma disciplina
+      description: Exclui uma disciplina do sistema.
+      operationId: deleteDisciplina
+      tags:
+        - Disciplinas
+      parameters:
+        - name: id
+          in: path
+          description: ID da disciplina a ser excluída.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: Disciplina excluída com sucesso.
+        '404':
+          description: Disciplina não encontrada.
+        '500':
+          description: Erro interno no servidor.
+
+  /disciplinas/{id}/add-professor:
+    post:
+      summary: Adiciona um professor a uma disciplina
+      description: Associa um professor a uma disciplina.
+      operationId: addProfessortoDisciplina
+      tags:
+        - Disciplinas
+      parameters:
+        - name: id
+          in: path
+          description: ID da disciplina à qual o professor será adicionado.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        description: Dados do professor a ser associado à disciplina.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                professorId:
+                  type: string
+                  example: "1001"
+              required:
+                - professorId
+      responses:
+        '200':
+          description: Professor adicionado com sucesso à disciplina.
+        '400':
+          description: Dados inválidos ou erro ao associar o professor.
+        '404':
+          description: Disciplina não encontrada.
+        '500':
+          description: Erro interno no servidor.
+
+  /disciplinas/{id}/remove-professor/{professorId}:
+    delete:
+      summary: Remove um professor de uma disciplina
+      description: Desassocia um professor de uma disciplina.
+      operationId: removeProfessorfromDisciplina
+      tags:
+        - Disciplinas
+      parameters:
+        - name: id
+          in: path
+          description: ID da disciplina da qual o professor será removido.
+          required: true
+          schema:
+            type: string
+            example: "1"
+        - name: professorId
+          in: path
+          description: ID do professor a ser removido.
+          required: true
+          schema:
+            type: string
+            example: "1001"
+      responses:
+        '200':
+          description: Professor removido com sucesso da disciplina.
+        '404':
+          description: Disciplina ou professor não encontrado.
+        '500':
+          description: Erro interno no servidor.
+
+  /disciplinas/{id}/add-turma/{turmaId}:
+    post:
+      summary: Adiciona uma turma a uma disciplina
+      description: Associa uma turma a uma disciplina.
+      operationId: addTurmatoDisciplina
+      tags:
+        - Disciplinas
+      parameters:
+        - name: id
+          in: path
+          description: ID da disciplina à qual a turma será associada.
+          required: true
+          schema:
+            type: string
+            example: "1"
+        - name: turmaId
+          in: path
+          description: ID da turma a ser associada à disciplina.
+          required: true
+          schema:
+            type: string
+            example: "101"
+      responses:
+        '200':
+          description: Turma associada com sucesso à disciplina.
+        '404':
+          description: Disciplina ou turma não encontrada.
+        '500':
+          description: Erro interno no servidor.
+
+  /disciplinas/{id}/remove-turma/{turmaId}:
+    delete:
+      summary: Remove uma turma de uma disciplina
+      description: Desassocia uma turma de uma disciplina.
+      operationId: removeTurmafromDisciplina
+      tags:
+        - Disciplinas
+      parameters:
+        - name: id
+          in: path
+          description: ID da disciplina da qual a turma será removida.
+          required: true
+          schema:
+            type: string
+            example: "1"
+        - name: turmaId
+          in: path
+          description: ID da turma a ser removida.
+          required: true
+          schema:
+            type: string
+            example: "101"
+      responses:
+        '200':
+          description: Turma removida com sucesso da disciplina.
+        '404':
+          description: Disciplina ou turma não encontrada.
+        '500':
+          description: Erro interno no servidor.
+
+securitySchemes:
+  BearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT

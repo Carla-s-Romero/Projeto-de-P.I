@@ -1,0 +1,225 @@
+openapi: 3.0.0
+info:
+  title: API de Notificações
+  description: API para gerenciar notificações no sistema, como alertas ou avisos aos usuários.
+  version: 1.0.0
+paths:
+  /notificacoes:
+    get:
+      summary: Retorna todas as notificações
+      description: Recupera uma lista de todas as notificações registradas no sistema, requerendo autenticação.
+      operationId: getNotificacao
+      tags:
+        - Notificações
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Lista de notificações.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "1"
+                    titulo:
+                      type: string
+                      example: "Manutenção do sistema"
+                    mensagem:
+                      type: string
+                      example: "O sistema estará fora do ar para manutenção das 22h às 00h."
+                    data:
+                      type: string
+                      format: date-time
+                      example: "2024-11-17T21:00:00Z"
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+    post:
+      summary: Cria uma nova notificação
+      description: Registra uma nova notificação no sistema.
+      operationId: createNotificacao
+      tags:
+        - Notificações
+      security:
+        - BearerAuth: []
+      requestBody:
+        description: Dados necessários para registrar uma nova notificação.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titulo:
+                  type: string
+                  example: "Manutenção do sistema"
+                mensagem:
+                  type: string
+                  example: "O sistema estará fora do ar para manutenção das 22h às 00h."
+                data:
+                  type: string
+                  format: date-time
+                  example: "2024-11-17T21:00:00Z"
+              required:
+                - titulo
+                - mensagem
+                - data
+      responses:
+        '201':
+          description: Notificação criada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "2"
+                  titulo:
+                    type: string
+                    example: "Manutenção do sistema"
+                  mensagem:
+                    type: string
+                    example: "O sistema estará fora do ar para manutenção das 22h às 00h."
+                  data:
+                    type: string
+                    format: date-time
+                    example: "2024-11-17T21:00:00Z"
+        '400':
+          description: Dados inválidos no corpo da requisição.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+  /notificacoes/{id}:
+    get:
+      summary: Retorna uma notificação específica pelo ID
+      description: Recupera os detalhes de uma notificação específica pelo seu ID.
+      operationId: getNotificacaoById
+      tags:
+        - Notificações
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID da notificação a ser recuperada.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: Notificação encontrada.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "1"
+                  titulo:
+                    type: string
+                    example: "Manutenção do sistema"
+                  mensagem:
+                    type: string
+                    example: "O sistema estará fora do ar para manutenção das 22h às 00h."
+                  data:
+                    type: string
+                    format: date-time
+                    example: "2024-11-17T21:00:00Z"
+        '404':
+          description: Notificação não encontrada.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+    put:
+      summary: Atualiza uma notificação existente
+      description: Atualiza os dados de uma notificação registrada no sistema.
+      operationId: updateNotificacao
+      tags:
+        - Notificações
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID da notificação a ser atualizada.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        description: Dados atualizados para a notificação.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titulo:
+                  type: string
+                  example: "Manutenção programada do sistema"
+                mensagem:
+                  type: string
+                  example: "O sistema estará fora do ar para manutenção das 22h às 00h, em 18/11."
+                data:
+                  type: string
+                  format: date-time
+                  example: "2024-11-18T21:00:00Z"
+              required:
+                - titulo
+                - mensagem
+                - data
+      responses:
+        '200':
+          description: Notificação atualizada com sucesso.
+        '400':
+          description: Dados inválidos no corpo da requisição.
+        '404':
+          description: Notificação não encontrada.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+    delete:
+      summary: Exclui uma notificação pelo ID
+      description: Exclui uma notificação registrada no sistema.
+      operationId: deleteNotificacao
+      tags:
+        - Notificações
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID da notificação a ser excluída.
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: Notificação excluída com sucesso.
+        '404':
+          description: Notificação não encontrada.
+        '401':
+          description: Não autorizado. Token inválido ou ausente.
+        '500':
+          description: Erro interno no servidor.
+
+securitySchemes:
+  BearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
