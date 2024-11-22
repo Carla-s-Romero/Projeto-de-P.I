@@ -18,7 +18,7 @@ exports.getComunicado = async (req, res) => {
 exports.getComunicadoByTurma = async (req, res) => {
   try {
     const { turmaId } = req.params;
-    const comunicado = await Comunicado.find({ turmas: turmaId });
+    const comunicado = await Comunicado.find({ turmas: turmaId }).populate('autor');
     res.json(comunicado);
   } catch (err) {
     res.status(500).json({ message: err.message });
