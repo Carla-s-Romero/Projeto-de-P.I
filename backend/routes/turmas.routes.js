@@ -1,13 +1,15 @@
 const express = require('express');
-const router = express.Router();
 const turmasController = require('../controllers/turma.controller');
+const authMiddleware = require('../middleware/auth.middleware');
 
-router.get('/', turmasController.getTurma);
-router.get('/:id', turmasController.getTurmaById);
-router.post('/', turmasController.createTurma);
-router.put('/:id', turmasController.updateTurma);
-router.delete('/:id', turmasController.deleteTurma);
-router.get('/:id/alunos', turmasController.getAlunosByTurmaId);
+const router = express.Router();
+
+router.get('/', authMiddleware, turmasController.getTurma);
+router.get('/:id', authMiddleware, turmasController.getTurmaById);
+router.post('/', authMiddleware, turmasController.createTurma);
+router.put('/:id', authMiddleware, turmasController.updateTurma);
+router.delete('/:id', authMiddleware, turmasController.deleteTurma);
+router.get('/:id/alunos', authMiddleware, turmasController.getAlunosByTurmaId);
 
 //novas rotas
 router.post('/:id/add-aluno', turmasController.addAlunotoTurma);
