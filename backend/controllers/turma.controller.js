@@ -161,3 +161,21 @@ exports.removeAlunofromTurma = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// @desc    Get all turmas for a logged-in user
+// @route   GET /api/turmas/user/:userId
+// @access  Public
+exports.getTurmasByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const turmas = await Turma.find({
+      $or: [
+        { professores: userId },
+        { alunos: userId }
+      ]
+    });
+    res.json(turmas);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
