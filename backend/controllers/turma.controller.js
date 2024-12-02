@@ -173,8 +173,14 @@ exports.getTurmasByUserId = async (req, res) => {
         { professores: userId },
         { alunos: userId }
       ]
-    });
-    res.json(turmas);
+    }).populate('professores', 'nome');
+
+    const turmasWithFirstProfessorName = turmas.map(turma => ({
+      ...turma.toObject(),
+      primeiroProfessor: turma.professores.length > 0 ? turma.professores[0].nome : null
+    }));
+
+    res.json(turmasWithFirstProfessorName);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
