@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const dotenv = require('dotenv');
 const connectDB = require('./config/database');
-//const swaggerSetup = require('./docs/swagger');
+const swaggerSetup = require('./docs/swagger');
 
 // Carregar variáveis de ambiente do arquivo .env
 dotenv.config();
@@ -53,9 +53,8 @@ app.use('/api/conceitos', conceitosRoute);
 app.use('/api/faltas', faltasRoute);
 
 // Configuração do Swagger
-//swaggerSetup(app);
+swaggerSetup(app);
 // http://localhost:3000/api-docs
-
 
 // Configuração da Porta
 const PORT = process.env.PORT || 3000;
