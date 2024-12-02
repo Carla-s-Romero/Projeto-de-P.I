@@ -2,7 +2,7 @@
 # Mediotec API
 
 ## Descrição
-Mediotec API é uma API para um portal academico direcionado ao Senac Mediotec. Desenvolvida para gerenciar informações de usuários, disciplinas, faltas, conceitos, comunicados e notificações em um sistema educacional.
+Mediotec API é uma API para um portal academico direcionado ao Senac Mediotec. Desenvolvida para gerenciar informações de usuários, disciplinas, conceitos, comunicados e notificações em um sistema educacional.
 
 ## Tecnologias Usadas
 [![My Skills](https://skillicons.dev/icons?i=js,nodejs,express,mongodb,npm,postman)](https://skillicons.dev)
@@ -22,7 +22,6 @@ Projeto-de-P.I
 │   │   ├── comunicados.controller.js
 │   │   ├── conceitos.controller.js
 │   │   ├── disciplinas.controller.js
-│   │   ├── faltas.controller.js
 │   │   ├── notificacoes.controller.js
 │   │   ├── turma.controller.js
 │   │   └── usuarios.controller.js
@@ -32,14 +31,12 @@ Projeto-de-P.I
 │   │   ├── comunicados.models.js
 │   │   ├── conceitos.models.js
 │   │   ├── disciplinas.models.js
-│   │   ├── faltas.models.js
 │   │   └── usuarios.models.js
 │   ├── routes/
 │   │   ├── auth.routes.js
 │   │   ├── comunicados.routes.js
 │   │   ├── conceitos.routes.js
 │   │   ├── disciplinas.routes.js
-│   │   ├── faltas.routes.js
 │   │   ├── notificacoes.routes.js
 │   │   ├── turma.routes.js
 │   │   └── usuarios.routes.js
@@ -107,14 +104,6 @@ Projeto-de-P.I
   - `POST /api/comunicados` - Criar um novo comunicado (requer autenticação)
   - `PUT /api/comunicados/:id` - Atualizar comunicado por ID (requer autenticação)
   - `DELETE /api/comunicados/:id` - Deletar comunicado por ID (requer autenticação)
-
-- **Faltas**
-  - `GET /api/faltas` - Obter todas as faltas (requer autenticação)
-  - `GET /api/faltas/:id` - Obter falta por ID (requer autenticação)
-  - `POST /api/faltas` - Criar uma nova falta (requer autenticação)
-  - `PUT /api/faltas/:id` - Atualizar falta por ID (requer autenticação)
-  - `DELETE /api/faltas/:id` - Deletar falta por ID (requer autenticação)
-  - `GET /api/faltas/aluno/:id` - Obter faltas por aluno (requer autenticação)
 
 ## Licença
 Este projeto está licenciado sob a licença ISC. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
