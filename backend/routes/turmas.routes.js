@@ -14,6 +14,8 @@ router.get('/:id/alunos', authMiddleware, turmasController.getAlunosByTurmaId);
 //novas rotas
 router.post('/:id/add-aluno', turmasController.addAlunotoTurma);
 router.delete('/:id/remove-aluno/:alunoId', turmasController.removeAlunofromTurma);
+router.post('/:id/add-professor', turmasController.addProfessortoTurma);
+router.delete('/:id/remove-professor/:professorId', turmasController.removeProfessorfromTurma);
 router.get('/user/:userId', authMiddleware, turmasController.getTurmasByUserId);
 
 module.exports = router;
