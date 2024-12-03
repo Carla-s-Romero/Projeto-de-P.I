@@ -95,9 +95,7 @@ exports.getConceitosByAluno = async (req, res) => {
     if (!usuario || usuario.tipo !== 'aluno') {
       return res.status(400).json({ message: 'Usuário não é um aluno' });
     }
-    const conceitos = await Conceito.find({ aluno: alunoId })
-      .populate('disciplina')
-      .populate('aluno');
+    const conceitos = await Conceito.find({ aluno: alunoId }).populate('disciplina').populate('aluno');
     if (!conceitos.length) {
       return res.status(404).json({ message: 'Conceitos não encontrados' });
     }
