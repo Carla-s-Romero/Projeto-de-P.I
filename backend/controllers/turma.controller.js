@@ -161,3 +161,96 @@ exports.removeAlunofromTurma = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// @desc    Add professor to turma
+// @route   POST /api/turmas/:id/add-professor
+// @access  Public
+exports.addProfessortoTurma = async (req, res) => {
+  try {
+    // Verifica se o email foi fornecido
+    if (!req.body.email) {
+      return res.status(400).json({ message: 'Email é obrigatório' });
+    }
+
+    // Busca o professor pelo email
+    const professor = await Usuario.findOne({ email: req.body.email });
+    if (!professor) {
+      return res.status(404).json({ message: 'Professor não encontrado' });
+    }
+
+    // Verifica se o usuário encontrado é um professor
+    if (professor.tipo !== 'professor') {
+      return res.status(400).json({ message: 'Usuário não é um professor' });
+    }
+
+    // Busca a turma pelo ID
+    const turma = await Turma.findById(req.params.id);
+    if (!turma) {
+      return res.status(404).json({ message: 'Turma não encontrada' });
+    }
+
+    // Verifica se o professor já está na lista de professores da turma
+    if (turma.professores.includes(professor._id)) {
+      return res.status(400).json({ message: 'Professor já está na turma' });
+    }
+
+    // Adiciona o ID do professor à lista de professores da turma
+    turma.professores.push(professor._id);
+    await turma.save();
+
+    res.status(201).json(turma);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// @desc    Remove professor from turma
+// @route   DELETE /api/turmas/:id/remove-professor/:professorId
+// @access  Public
+exports.removeProfessorfromTurma = async (req, res) => {
+  try {
+    // Busca a turma pelo ID
+    const turma = await Turma.findById(req.params.id);
+    if (!turma) {
+      return res.status(404).json({ message: 'Turma não encontrada' });
+    }
+
+    // Verifica se o professor está na lista de professores da turma
+    const professorIndex = turma.professores.findIndex(professorId => professorId.toString() === req.params.professorId);
+    if (professorIndex === -1) {
+      return res.status(404).json({ message: 'Professor não encontrado na turma' });
+    }
+
+    // Remove o professor da lista de professores
+    turma.professores.splice(professorIndex, 1);
+    await turma.save();
+
+    res.json(turma);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// @desc    Get all turmas for a logged-in user
+// @route   GET /api/turmas/user/:userId
+// @access  Public
+exports.getTurmasByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const turmas = await Turma.find({
+      $or: [
+        { professores: userId },
+        { alunos: userId }
+      ]
+    }).populate('professores', 'nome');
+
+    const turmasWithFirstProfessorName = turmas.map(turma => ({
+      ...turma.toObject(),
+      primeiroProfessor: turma.professores.length > 0 ? turma.professores[0].nome : null
+    }));
+
+    res.json(turmasWithFirstProfessorName);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

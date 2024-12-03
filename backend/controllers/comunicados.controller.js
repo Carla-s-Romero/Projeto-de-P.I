@@ -18,7 +18,7 @@ exports.getComunicado = async (req, res) => {
 exports.getComunicadoByTurma = async (req, res) => {
   try {
     const { turmaId } = req.params;
-    const comunicado = await Comunicado.find({ turmas: turmaId }).populate('autor');
+    const comunicado = await Comunicado.find({ turma: turmaId }).populate('autor');
     res.json(comunicado);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -44,12 +44,12 @@ exports.getComunicadoById = async (req, res) => {
 // @route   POST /api/comunicados
 // @access  Public
 exports.createComunicado = async (req, res) => {
-  const { mensagem, data, turmas, autor } = req.body;
+  const { mensagem, data, turma, autor } = req.body;
   try {
     const comunicado = new Comunicado({
         mensagem,
         data,
-        turmas,
+        turma,
         autor
     });
     await comunicado.save();

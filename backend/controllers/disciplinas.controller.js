@@ -33,12 +33,11 @@ exports.getDisciplinaById = async (req, res) => {
 // @route   POST /api/disciplinas
 // @access  Public
 exports.createDisciplina = async (req, res) => {
-  const { nome, descricao, professores } = req.body;
+  const { nome, descricao } = req.body;
   try {
     const disciplina = new Disciplina({
       nome,
       descricao,
-      professores
     });
     await disciplina.save();
     res.status(201).json(disciplina);
@@ -54,7 +53,7 @@ exports.updateDisciplina = async (req, res) => {
   try {
     const disciplina = await Disciplina.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!disciplina) {
-      return res.status(404).json({ message: 'Disciplina não encotrada' });
+      return res.status(404).json({ message: 'Disciplina não encontrada' });
     }
     res.json(disciplina);
   } catch (err) {
@@ -144,27 +143,25 @@ exports.removeProfessorfromDisciplina = async (req, res) => {
   }
 };
 
-//Funcionando
+// @desc    Add turma to disciplina
+// @route   POST /api/disciplinas/:id/add-turma/:turmaId
+// @access  Public
 exports.addTurmatoDisciplina = async (req, res) => {
   try {
-    // Busca a turma pelo ID fornecido na URL
     const turma = await Turma.findById(req.params.turmaId);
     if (!turma) {
       return res.status(404).json({ message: 'Turma não encontrada' });
     }
 
-    // Busca a disciplina pelo ID
     const disciplina = await Disciplina.findById(req.params.id);
     if (!disciplina) {
       return res.status(404).json({ message: 'Disciplina não encontrada' });
     }
 
-    // Verifica se a turma já está na lista de turmas da disciplina
     if (disciplina.turmas.includes(turma._id)) {
       return res.status(400).json({ message: 'Turma já está na disciplina' });
     }
 
-    // Adiciona o ID da turma à lista de turmas da disciplina
     disciplina.turmas.push(turma._id);
     await disciplina.save();
 
@@ -174,22 +171,21 @@ exports.addTurmatoDisciplina = async (req, res) => {
   }
 };
 
-//Funcionando
+// @desc    Remove turma from disciplina
+// @route   DELETE /api/disciplinas/:id/remove-turma/:turmaId
+// @access  Public
 exports.removeTurmafromDisciplina = async (req, res) => {
   try {
-    // Busca a disciplina pelo ID
     const disciplina = await Disciplina.findById(req.params.id);
     if (!disciplina) {
       return res.status(404).json({ message: 'Disciplina não encontrada' });
     }
 
-    // Verifica se a turma está na lista de turmas da disciplina
     const turmaIndex = disciplina.turmas.findIndex(turmaId => turmaId.toString() === req.params.turmaId);
     if (turmaIndex === -1) {
       return res.status(404).json({ message: 'Turma não encontrada na disciplina' });
     }
 
-    // Remove a turma da lista de turmas
     disciplina.turmas.splice(turmaIndex, 1);
     await disciplina.save();
 
