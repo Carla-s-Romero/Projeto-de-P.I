@@ -361,8 +361,134 @@ router.post('/:id/add-aluno', turmasController.addAlunotoTurma);
  *         description: Erro ao remover aluno da turma
  */
 router.delete('/:id/remove-aluno/:alunoId', turmasController.removeAlunofromTurma);
+
+/**
+ * @swagger
+ * /api/turmas/{id}/add-professor:
+ *   post:
+ *     summary: Adiciona um professor a uma Turma.
+ *     tags: [Turmas]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID da turma.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: Email do professor a ser adicionado.
+ *                 example: professor@escola.com
+ *     responses:
+ *       201:
+ *         description: Professor adicionado à disciplina com sucesso.
+ *       400:
+ *         description: Email ausente ou professor já está na disciplina.
+ *       404:
+ *         description: Professor ou disciplina não encontrados.
+ *       500:
+ *         description: Erro interno no servidor.
+ */
 router.post('/:id/add-professor', turmasController.addProfessortoTurma);
+
+/**
+ * @swagger
+ * /api/turmas/{id}/remove-professor/{professorId}:
+ *   delete:
+ *     summary: Remove um professor de uma turma.
+ *     tags: [Turmas]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID da turma.
+ *       - in: path
+ *         name: professorId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID do professor a ser removido.
+ *     responses:
+ *       200:
+ *         description: Professor removido da turma com sucesso.
+ *       404:
+ *         description: Professor ou turma não encontrados.
+ *       500:
+ *         description: Erro interno no servidor.
+ */
 router.delete('/:id/remove-professor/:professorId', turmasController.removeProfessorfromTurma);
+
+/**
+ * @swagger
+ * /api/turmas/user/{userId}:
+ *   get:
+ *     summary: Retorna turmas específicas
+ *     tags: [Turmas]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID do Usuario
+ *     responses:
+ *       200:
+ *         description: Dados da turma
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                   description: ID da turma
+ *                 nome:
+ *                   type: string
+ *                   description: Nome da turma
+ *                 codigo:
+ *                   type: string
+ *                   description: Código da turma
+ *                 materia:
+ *                   type: string
+ *                   description: Matéria associada
+ *                 turno:
+ *                   type: string
+ *                   description: Turno da turma
+ *                 sala:
+ *                   type: string
+ *                   description: Sala da turma
+ *                 professores:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                   description: IDs dos professores
+ *                 alunos:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                   description: IDs dos alunos
+ *       404:
+ *         description: Turma não encontrada
+ *       500:
+ *         description: Erro ao obter a turma
+ */
 router.get('/user/:userId', authMiddleware, turmasController.getTurmasByUserId);
 
 module.exports = router;
