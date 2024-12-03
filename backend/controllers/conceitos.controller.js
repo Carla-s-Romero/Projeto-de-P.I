@@ -91,7 +91,7 @@ exports.deleteConceito = async (req, res) => {
 exports.getConceitosByAluno = async (req, res) => {
   try {
     const alunoId = req.params.id;
-    const usuario = await Usuario.findById(alunoId).populate('aluno');
+    const usuario = await Usuario.findById(alunoId);
     if (!usuario || usuario.tipo !== 'aluno') {
       return res.status(400).json({ message: 'Usuário não é um aluno' });
     }
