@@ -18,7 +18,7 @@ exports.getTurma = async (req, res) => {
 // @access  Public
 exports.getTurmaById = async (req, res) => {
   try {
-    const turma = await Turma.findById(req.params.id);
+    const turma = await Turma.findById(req.params.id).populate('alunos').populate('professores');
     if (!turma) {
       return res.status(404).json({ message: 'Turma não encontrada' });
     }
