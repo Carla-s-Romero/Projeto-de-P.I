@@ -5,6 +5,11 @@ const helmet = require('helmet');
 const dotenv = require('dotenv');
 const connectDB = require('./config/database');
 const swaggerSetup = require('./docs/swagger');
+//rota para o arquivo de salvar imagens
+const { setupImageRoutes } = require('./img-save');
+
+// Configuração da rotas
+setupImageRoutes(app);
 
 // Carregar variáveis de ambiente do arquivo .env
 dotenv.config();
